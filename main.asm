@@ -6,14 +6,14 @@ extern _main_loop
 section .text
 global _start
 _start:
-        push banner_len
-        push banner
-        push STDOUT
+        mov rdx, banner_len
+        mov rsi, banner
+        mov rdi, STDOUT
         call _write
 
         call _main_loop
 
-        push rax
+        mov rdi, rax
         call _exit
 
 section .data
