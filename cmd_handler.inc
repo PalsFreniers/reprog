@@ -1,0 +1,1 @@
+extern _cmd_list_handler

@@ -1,7 +1,7 @@
 %include "calls.inc"
 %include "utils.inc"
 
-;extern _get_cmd
+extern _handle_cmd
 
 section .text
 global _main_loop
@@ -21,15 +21,34 @@ _main_loop:
         jle .cmd_len_error
         
         mov rdi, cmd
-        call _get_cmd
+        call _handle_cmd
+
+        cmp rax, 2
+        je .quit_broadcast
+        cmp rax, 0
+        je .handle_error
         
         jmp .loop_start
 
-.cmd_len_error:
-        push error_command_len_len
-        push error_command_len
-        push STDOUT
+.quit_broadcast:
+        mov rax, 0
+        ret
+
+.handle_error:
+        mov rdx, error_handle_msg_len
+        mov rsi, error_handle_msg
+        mov rdi, STDOUT
         call _write
+        jmp .error_return
+
+.cmd_len_error:
+        mov rdx, error_command_len_len
+        mov rsi, error_command_len
+        mov rdi, STDOUT
+        call _write
+        jmp .error_return
+
+.error_return:
         mov rax, 1
         ret
 
@@ -37,8 +56,10 @@ section .data
 prompt: db "[reprog] -> "
 prompt_len: equ $-prompt
 
-error_command_len: db "Error while reading input from user", 0x0A
+error_command_len: db "[Error] -> while reading input from user", 0x0A
 error_command_len_len: equ $-error_command_len
+error_handle_msg: db "[Error] -> during command handling", 0x0A
+error_handle_msg_len: equ $-error_handle_msg
 
 section .bss
 cmd: resb 100

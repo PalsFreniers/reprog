@@ -1,7 +1,7 @@
 NAME=reprog
 ASM=nasm
 LD=ld
-SRC=main.asm mainloop.asm calls.asm utils.asm
+SRC=main.asm mainloop.asm handler.asm cmd_handler.asm str.asm calls.asm utils.asm
 INCLUDE=utils.inc calls.inc
 OBJS=$(SRC:.asm=.o)
 ASMFLAGS=-felf64
