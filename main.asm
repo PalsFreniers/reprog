@@ -10,10 +10,6 @@ _start:
         mov rax, [rsp]
         cmp rax, 1
         jne .too_much_args
-        
-        mov rax, rsp
-        add rax, 16
-        mov qword [env_var_list_start], [rax]
 
         mov rdx, banner_len
         mov rsi, banner
