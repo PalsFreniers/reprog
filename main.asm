@@ -11,13 +11,24 @@ _start:
         cmp rax, 1
         jne .too_much_args
 
+        xor rax, rax
+.loop_env:
+        mov rbx, [rsp + rax * 8 + 8]
+        test  rbx, rbx
+        jz    .load_env
+        add  rax, 1
+        jmp  .loop_env
+.load_env:
+        cmp q
+        mov qword [env_var_list_start], [rsp + rax]
+        mov qword [env_var_list_start], 
         mov rdx, banner_len
         mov rsi, banner
         mov rdi, STDOUT
         call _write
         
         call _main_loop
-
+        
         mov rdi, rax
         call _exit
 .too_much_args:
@@ -25,7 +36,7 @@ _start:
         mov rsi, too_much_args_error_msg
         mov rdi, STDOUT
         call _write
-
+        
         mov rdi, 1
         call _exit
 

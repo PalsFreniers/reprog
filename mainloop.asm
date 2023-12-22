@@ -25,7 +25,7 @@ _main_loop:
 
         cmp rax, 2
         je .quit_broadcast
-        cmp rax, 0
+        cmp rax, 3
         je .handle_error
         
         jmp .loop_start
@@ -39,7 +39,7 @@ _main_loop:
         mov rsi, error_handle_msg
         mov rdi, STDOUT
         call _write
-        jmp .error_return
+        jmp .loop_start
 
 .cmd_len_error:
         mov rdx, error_command_len_len
@@ -58,7 +58,7 @@ prompt_len: equ $-prompt
 
 error_command_len: db "[Error] -> while reading input from user", 0x0A
 error_command_len_len: equ $-error_command_len
-error_handle_msg: db "[Error] -> during command handling", 0x0A
+error_handle_msg: db "[Error] -> unknown command", 0x0A
 error_handle_msg_len: equ $-error_handle_msg
 
 section .bss

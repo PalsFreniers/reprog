@@ -36,8 +36,8 @@ _handle_cmd:
 
 .end_for:
 
-        mov rdi, parse_cmd_start
-        mov rsi, parse_cmd_quit
+        mov rdi, parse_cmd_quit
+        mov rsi, parse_cmd_start
         call _strcmp
 
         cmp rax, 0
@@ -47,8 +47,8 @@ _handle_cmd:
         ret
 
 .else_cmd_quit:
-        mov rdi, parse_cmd_start
-        mov rsi, parse_cmd_list
+        mov rdi, parse_cmd_list
+        mov rsi, parse_cmd_start
         call _strcmp
 
         cmp rax, 0
@@ -60,7 +60,7 @@ _handle_cmd:
         ret
 
 .else_cmd_list:
-        mov rax, 0
+        mov rax, 3
         ret
         
 
